@@ -18,7 +18,12 @@ class TaskTableViewCell: UITableViewCell {
     var task: Task?
     var delegate: TaskTableViewCellDelegate?
     
-    init(style: UITableViewCellStyle, reuseIdentifier: String) {
+    required init(coder aDecoder: NSCoder!) {
+ 
+        super.init(coder: aDecoder)
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -29,6 +34,16 @@ class TaskTableViewCell: UITableViewCell {
         let gesture = UIPanGestureRecognizer(target: self, action: "handlePan:")
         gesture.delegate = self
         self.addGestureRecognizer(gesture)
+    }
+    
+    override func awakeFromNib() {
+        
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+
+        super.setSelected(selected, animated: animated)
     }
     
     func handlePan(recognizer: UIPanGestureRecognizer) {

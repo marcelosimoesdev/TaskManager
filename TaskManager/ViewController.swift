@@ -90,13 +90,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func saveContext() {
         
         var error: NSError? = nil
-        if !context.save(&error) {
+        if !context!.save(&error) {
             println(error)
             abort()
         }
     }
     
-    // UITableViewDataSource
+    //MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         
@@ -126,7 +126,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    // UITableViewDelegate
+    //MARK: - UITableViewDelegate
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         
@@ -134,12 +134,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    // TaskTableViewCellDelegate
+    //MARK: - TaskTableViewCellDelegate
     
     func taskItemDeleted(task: Task) {
         
         let indexPath = tasks.indexPathForObject(task)
-        context.deleteObject(tasks.objectAtIndexPath(indexPath) as NSManagedObject)
+        context!.deleteObject(tasks.objectAtIndexPath(indexPath) as NSManagedObject)
 
         saveContext()
     }
@@ -156,7 +156,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         saveContext()
     }
     
-    // UITextFieldDelegate
+    //MARK: - UITextFieldDelegate
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         
@@ -164,7 +164,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return true
     }
     
-    // NSFetchedResultsControllerDelegate
+    //MARK: - NSFetchedResultsControllerDelegate
     
     func controller(controller: NSFetchedResultsController!, didChangeObject anObject: AnyObject!, atIndexPath indexPath: NSIndexPath!, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath!) {
 

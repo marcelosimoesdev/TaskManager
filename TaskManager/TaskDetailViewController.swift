@@ -31,7 +31,7 @@ class TaskDetailViewController: UIViewController {
     func saveContext() {
         
         var error: NSError? = nil
-        if !context.save(&error) {
+        if !context!.save(&error) {
             println(error)
             abort()
         }
