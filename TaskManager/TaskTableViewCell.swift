@@ -18,7 +18,7 @@ class TaskTableViewCell: UITableViewCell {
     var task: Task?
     var delegate: TaskTableViewCellDelegate?
     
-    required init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
  
         super.init(coder: aDecoder)
     }
@@ -28,8 +28,8 @@ class TaskTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         self.backgroundColor = UIColor.frontColor()
-        self.textLabel.textColor = UIColor.cellFontColor()
-        self.textLabel.numberOfLines = 0
+        self.textLabel?.textColor = UIColor.cellFontColor()
+        self.textLabel?.numberOfLines = 0
         
         let gesture = UIPanGestureRecognizer(target: self, action: "handlePan:")
         gesture.delegate = self
@@ -88,11 +88,11 @@ class TaskTableViewCell: UITableViewCell {
             }
         }
     }
-    
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer!) -> Bool {
+
+    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         
         let recognizer = gestureRecognizer as UIPanGestureRecognizer
-        let translation = recognizer.translationInView(self.superview)
+        let translation = recognizer.translationInView(self.superview!)
         
         // Check for horizontal gesture
         if fabs(translation.x) > fabs(translation.y) {
@@ -100,4 +100,5 @@ class TaskTableViewCell: UITableViewCell {
         }
         return false
     }
+    
 }

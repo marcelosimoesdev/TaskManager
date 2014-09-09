@@ -15,7 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var tableView : UITableView!
     @IBOutlet var filterSegmentedControl: UISegmentedControl!
     
-    let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext!
     
     var tasks: NSFetchedResultsController {
     if _tasks != nil {
@@ -62,12 +62,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue!.identifier == "segueTaskDetail" {
-            let taskDetailViewController = segue!.destinationViewController as TaskDetailViewController
-            taskDetailViewController.task = tasks.objectAtIndexPath(tableView.indexPathForSelectedRow()) as Task
+        if segue.identifier == "segueTaskDetail" {
+            let taskDetailViewController = segue.destinationViewController as TaskDetailViewController
+            taskDetailViewController.task = tasks.objectAtIndexPath(tableView.indexPathForSelectedRow()!) as Task
         }
     }
 
@@ -90,7 +90,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func saveContext() {
         
         var error: NSError? = nil
-        if !context!.save(&error) {
+        if !context.save(&error) {
             println(error)
             abort()
         }
@@ -98,13 +98,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //MARK: - UITableViewDataSource
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return tasks.fetchedObjects.count
+        return tasks.fetchedObjects!.count
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as TaskTableViewCell
         configureCell(cell, atIndexPath: indexPath)
         
@@ -113,8 +113,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func configureCell(cell: TaskTableViewCell, atIndexPath indexPath: NSIndexPath) {
         
-        let task = tasks.fetchedObjects[indexPath.row] as Task
-        cell.textLabel.text = task.name
+        let task = tasks.fetchedObjects![indexPath.row] as Task
+        cell.textLabel?.text = task.name
 
         cell.task = task
         cell.delegate = self
@@ -138,8 +138,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func taskItemDeleted(task: Task) {
         
-        let indexPath = tasks.indexPathForObject(task)
-        context!.deleteObject(tasks.objectAtIndexPath(indexPath) as NSManagedObject)
+        if let indexPath = tasks.indexPathForObject(task) {
+            context.deleteObject(tasks.objectAtIndexPath(indexPath) as NSManagedObject)
+        }
 
         saveContext()
     }

@@ -43,11 +43,11 @@ class TaskDetailViewController: UIViewController {
         task.completed = completedSwitch.on
         
         saveContext()
-        self.navigationController.popViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func cancelChanges(sender: UIButton) {
 
-        self.navigationController.popViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }
